@@ -1,0 +1,31 @@
+/* Base styles for all <div> elements */
+div {
+    background-color: #97D5EE; /* Light blue background color */
+    color: #DB3E25; /* Brand red text color */
+    display: flexbox; /* Use flexbox layout */
+    align-items: center; /* Center align items vertically */
+    justify-content: center; /* Center align items horizontally */
+    padding: 20px; /* Consistent padding */
+    margin: 20px; /* Consistent margin for spacing */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    font-size: 1rem; /* Base font size */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+/* Button Styles within <div> */
+div button {
+    background-color: #DB3E25; /* Brand red for buttons */
+    color: white; /* White text on buttons */
+    padding: 10px 20px; /* Padding for button */
+    border: none; /* Remove default button border */
+    border-radius: 5px; /* Rounded corners for buttons */
+    font-size: 1rem; /* Font size for buttons */
+    cursor: pointer; /* Pointer cursor for button hover */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+/* Button hover effect */
+div button:hover {
+    background-color: #BF2E20; /* Darker shade on hover */
+}
+

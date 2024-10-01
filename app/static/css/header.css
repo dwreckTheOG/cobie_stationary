@@ -1,0 +1,38 @@
+/* Header Styles */
+header {
+    background-color: #97D5EE; /* Light blue background for the header */
+    display: flexbox; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between logo and nav */
+    padding: 20px; /* Consistent padding for spacing */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Heading Styles */
+h1, h2, h3, h4, h5, h6 {
+    color: #DB3E25; /* Brand red for headings */
+    font-family: 'Roboto', sans-serif; /* Bold and clean font for titles */
+    margin: 20px 0; /* Consistent margin */
+    font-size: 1.25rem; /* Base font size, adjust as needed */
+}
+
+h1 {
+    font-size: 2.5rem; /* Large size for main titles */
+}
+
+h2 {
+    font-size: 2rem; /* Size for secondary headings */
+}
+
+h3 {
+    font-size: 1.75rem; /* Size for tertiary headings */
+}
+
+/* Logo Styles */
+.logo {
+    height: 50px; /* Adjust height as needed */
+    vertical-align: middle; /* Aligns the logo vertically with text */
+    margin-right: 15px; /* Adds space between logo and heading */
+}
+
+

@@ -1,0 +1,13 @@
+> Colors formats:
+background color: #97D5EE
+color: #DB3E25
+
+> Display formats:
+flex box
+center align
+
+Additional Notes:
+Font size: Use rem or em units for responsiveness.
+Padding and margins: Keep a consistent padding and margin for sections like 20px to maintain spacing.
+Button size: Ensure buttons are large enough to be easily clickable on both desktop and mobile.
+Responsiveness: Use @media queries to adjust layouts for mobile screens (e.g., setting different font-size or padding for smaller devices).

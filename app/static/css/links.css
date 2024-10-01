@@ -1,0 +1,8 @@
+a {
+    color: #DB3E25; /* Red color for links */
+    text-decoration: none; /* Removes underline */
+}
+a:hover {
+    text-decoration: underline; /* Underline when hovering */
+    color: #333333; /* Darken on hover for contrast */
+}

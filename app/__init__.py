@@ -12,4 +12,7 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+    from app.base import base_bp
+    app.register_blueprint(base_bp, url_prefix='')
     return app

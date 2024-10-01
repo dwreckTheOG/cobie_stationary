@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Cobie Stationary{% endblock %}</title>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/links.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/div.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobi.css') }}">
+
+    
+
+    {% block head %}
+    <!-- Additional head content -->
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Cobie Stationary Logo" class="logo">
+        <div>
+        <h1>Cobie Stationary</h1>
+        <h3>From desk to door, Cobie delivers</h3>
+        </div>
+        
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        {% block content %}
+        <!-- Dynamic page content will be injected here -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cobie Stationary - All Rights Reserved</p>
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Terms of Service</a>
+    </footer>
+
+    <!-- JavaScript (if needed) -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}
+    <!-- Additional page-specific scripts -->
+    {% endblock %}
+</body>
+</html>
