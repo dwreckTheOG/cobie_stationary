@@ -1,4 +1,5 @@
 from app.extensions import db
+from flask_login import UserMixin
 
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -107,7 +108,7 @@ class SalesItem(db.Model):
     def __repr__(self):
         return f"<SalesItem {self.sale_item_id} - Product {self.product_id}>"
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -120,8 +121,11 @@ class User(db.Model):
     # Relationships
     sales = db.relationship('Sale', backref='user', lazy=True)
 
+    def get_id(self):
+        return str(self.user_id)
+
     def __repr__(self):
-        return f"<User {self.username}>"
+        return f"<User {self.full_name}>"
 
 class Payment(db.Model):
     __tablename__ = 'payments'
