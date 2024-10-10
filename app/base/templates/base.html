@@ -7,30 +7,21 @@
     <title>{% block title %}Cobie Stationary{% endblock %}</title>
     
     <!-- External CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/links.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/div.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobi.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     
-
     {% block head %}
     <!-- Additional head content -->
     {% endblock %}
 </head>
 <body>
     <header>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Cobie Stationary Logo" class="logo">
-        <div>
-        <h1>Cobie Stationary</h1>
-        <h3>From desk to door, Cobie delivers</h3>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Cobie Stationary Logo" class="logo">
+            <div class="header-text">
+                <h1>Cobie Stationary</h1>
+                <h3>From desk to door, Cobie delivers</h3>
+            </div>
         </div>
-        
         <nav>
             <a href="#">Home</a>
             <a href="#">Products</a>
