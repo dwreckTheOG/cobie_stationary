@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Cobie Stationary{% endblock %}
+
+{% block content %}
+    <h2>Welcome, {{ current_user.full_name }}</h2>
+    <p>Here are your admin tasks:</p>
+    
+    <ul>
+        <li><a href="#">Manage Users</a></li>
+        <li><a href="#">View Reports</a></li>
+        <li><a href="#">Inventory Management</a></li>
+        <li><a href="#">System Settings</a></li>
+    </ul>
+{% endblock %}
