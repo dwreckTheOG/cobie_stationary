@@ -1,9 +1,53 @@
 from flask import render_template, redirect, url_for, flash
 from app.reg import reg_bp
-from app.reg.forms import UserRegistrationForm
+from app.reg.forms import UserRegistrationForm, UpdateUserForm
 from app.models import User
 from app.extensions import db
 from werkzeug.security import generate_password_hash
+from flask_login import login_required
+
+@reg_bp.route('/delete/user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        flash('User deleted successfully.', 'success')
+    except:
+        db.session.rollback()
+        flash('An error occurred. User could not be deleted.', 'danger')
+    
+    return redirect(url_for('reg.view_users'))
+
+@reg_bp.route('/update/user/<int:user_id>', methods=['GET', 'POST'])
+@login_required  # Ensure the user is logged in to perform this action
+def update_user(user_id):
+    user = User.query.get_or_404(user_id)  # Fetch the user by ID
+    form = UpdateUserForm(obj=user)  # Prepopulate form with user data
+
+    if form.validate_on_submit():
+        # Update user details
+        user.full_name = form.full_name.data
+        user.email = form.email.data
+        user.role = form.role.data
+
+        # Update password if provided
+        if form.password.data:
+            user.password_hash = generate_password_hash(form.password.data)
+        
+        db.session.commit()  # Commit the changes to the database
+        flash('User updated successfully!', 'success')
+        
+        return redirect(url_for('reg.view_users'))  # Redirect to view users
+
+    return render_template('update_user.html', form=form, user=user)
+
+@reg_bp.route('/view/users')
+@login_required
+def view_users():
+    users = User.query.all()
+    return render_template('view_users.html',users=users)
 
 @reg_bp.route('/user/registration', methods=['GET', 'POST'])
 def user_registration():

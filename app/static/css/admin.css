@@ -1,0 +1,91 @@
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto; /* Match margin with style.css */
+    padding: 1.25rem;  /* Consistent padding in rem */
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Admin Dashboard Content */
+h2 {
+    color: #DB3E25;
+    font-size: 2rem;  /* Use rem for font-size */
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #555555; /* Match softer color for text */
+    margin-bottom: 2rem;
+}
+
+/* Admin Task Menu Styling */
+.menu {
+    display: flex;
+    justify-content: center;  /* Flexbox centering */
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li {
+    margin: 10px 0;
+}
+
+.menu ul li a {
+    background-color: #DB3E25;
+    color: #ffffff;
+    padding: 0.625rem 1.25rem; /* Use consistent rem units */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.menu ul li a:hover {
+    background-color: #97D5EE;
+    color: #DB3E25;
+}
+
+/* Buttons size and styling */
+button, a.button {
+    padding: 0.9375rem 1.875rem; /* Use rem units (equivalent to 15px and 30px) */
+    font-size: 1rem;
+    background-color: #DB3E25;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, a.button:hover {
+    background-color: #97D5EE;
+    color: #DB3E25;
+}
+
+/* Responsiveness for Mobile Devices */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.5rem;  /* Match mobile responsiveness with style.css */
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .menu ul li a {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
+    .container {
+        padding: 1rem; /* Match container padding for mobile */
+    }
+}

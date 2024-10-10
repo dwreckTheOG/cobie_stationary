@@ -25,50 +25,52 @@
 }
 
 .form-container label {
-    color: #DB3E25;
+    color: #DB3E25; /* Brand color for labels */
     font-size: 1rem;
     margin-bottom: 0.5rem; /* Space between label and input */
 }
 
 input, select {
-    width: 90%;
+    width: 90%; /* Narrower form fields for a clean look */
     padding: 0.625rem; /* Responsive padding for input fields */
     margin-bottom: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; /* Light gray border for input fields */
     border-radius: 4px;
     font-size: 1rem;
 }
 
 input:focus, select:focus {
-    border-color: #DB3E25;
+    border-color: #DB3E25; /* Border color on focus */
     outline: none;
     box-shadow: 0 0 5px rgba(219, 62, 37, 0.5); /* Subtle glow effect on focus */
 }
 
 /* Error Messages */
 .text-danger {
-    color: #DB3E25;
+    color: #DB3E25; /* Error messages in brand red */
     font-size: 0.875rem;
     margin-top: -0.5rem;
 }
 
 /* Button Styles */
 button {
-    background-color: #DB3E25;
+    background-color: #DB3E25; /* Primary button color */
     color: #ffffff;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1.5rem; /* Button padding */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    width: 100%; /* Make button full width */
+    width: 100%; /* Full-width button */
     text-align: center;
 }
 
 button:hover {
-    background-color: #BA321D; /* Darker shade on hover */
+    background-color: #BA321D; /* Darker red on hover */
 }
-
+a:hover {
+    color: #BA321D;
+}
 /* Centering Form on Smaller Screens */
 @media (max-width: 768px) {
     .form-container {

@@ -2,6 +2,7 @@
 these are the colors that will be consisntently used in the project.
 background color: #97D5EE
 color: #DB3E25
+background color for form: #ffffff
 
 > Display formats:
 flex box

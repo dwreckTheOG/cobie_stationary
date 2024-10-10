@@ -2,13 +2,19 @@
 
 {% block title %}Salesperson Dashboard - Cobie Stationary{% endblock %}
 
+{% block head %}
+<!-- Additional head content -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/salesperson.css') }}">
+{% endblock %}
+
 {% block content %}
     <h2>Welcome, {{ current_user.full_name }}</h2>
     <p>Here are your sales tasks:</p>
-
+    <div class="menu">
     <ul>
         <li><a href="#">View Sales Orders</a></li>
         <li><a href="#">Manage Customers</a></li>
         <li><a href="#">Generate Sales Reports</a></li>
     </ul>
+    </div>
 {% endblock %}
