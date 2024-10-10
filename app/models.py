@@ -111,11 +111,11 @@ class User(db.Model):
     __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(255), nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.Enum('Admin', 'Salesperson'), default='Salesperson')
     full_name = db.Column(db.String(255), nullable=True)
     email = db.Column(db.String(255), nullable=True)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.Enum('Admin', 'Salesperson'), default='Salesperson')
+    
 
     # Relationships
     sales = db.relationship('Sale', backref='user', lazy=True)

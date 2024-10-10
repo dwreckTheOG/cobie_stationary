@@ -1,0 +1,87 @@
+/* General Styles for the Form */
+.form-container {
+    max-width: 600px;
+    margin: 40px auto; /* Center the form on the page */
+    padding: 20px;
+    background-color: #ffffff; /* Keep form background white */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    font-size: 1rem; /* Base font size */
+}
+
+/* Form Heading */
+.form-container h2 {
+    color: #DB3E25; /* Brand red for heading */
+    margin-bottom: 1.5rem; /* Space below heading */
+    font-size: 1.8rem; /* Responsive font size for heading */
+    text-align: center;
+}
+
+/* Input and Label Styles */
+.form-container form div {
+    display: flexbox;
+    flex-direction: column;
+    margin-bottom: 1.5rem; /* Consistent margin between form fields */
+}
+
+.form-container label {
+    color: #DB3E25;
+    font-size: 1rem;
+    margin-bottom: 0.5rem; /* Space between label and input */
+}
+
+input, select {
+    width: 90%;
+    padding: 0.625rem; /* Responsive padding for input fields */
+    margin-bottom: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input:focus, select:focus {
+    border-color: #DB3E25;
+    outline: none;
+    box-shadow: 0 0 5px rgba(219, 62, 37, 0.5); /* Subtle glow effect on focus */
+}
+
+/* Error Messages */
+.text-danger {
+    color: #DB3E25;
+    font-size: 0.875rem;
+    margin-top: -0.5rem;
+}
+
+/* Button Styles */
+button {
+    background-color: #DB3E25;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%; /* Make button full width */
+    text-align: center;
+}
+
+button:hover {
+    background-color: #BA321D; /* Darker shade on hover */
+}
+
+/* Centering Form on Smaller Screens */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 20px auto; /* Less margin on smaller screens */
+        padding: 15px;
+    }
+
+    .form-container h2 {
+        font-size: 1.6rem; /* Slightly smaller heading for mobile */
+    }
+
+    button {
+        padding: 0.875rem 1.25rem; /* Larger buttons for mobile */
+        font-size: 1.1rem;
+    }
+}
