@@ -1,11 +1,83 @@
 from flask import render_template, redirect, url_for, flash
 from app.reg import reg_bp
-from app.reg.forms import UserRegistrationForm, UpdateUserForm, SupplierForm
-from app.models import User,Supplier
+from app.reg.forms import CustomerForm, UserRegistrationForm, UpdateUserForm, SupplierForm
+from app.models import User,Supplier, Customer
 from app.extensions import db, admin_required
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, current_user
 
+@reg_bp.route('/view/customers')
+@login_required
+def view_customers():
+    customers = Customer.query.all()
+    return render_template('view_customers.html',customers=customers)
+
+@reg_bp.route('/add/customer', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def add_customer():
+    form = CustomerForm()
+
+    if form.validate_on_submit():
+        new_customer = Customer(
+            customer_name=form.customer_name.data,
+            email=form.email.data,
+            phone=form.phone.data,
+            address=form.address.data
+        )
+
+        try:
+            db.session.add(new_customer)
+            db.session.commit()
+            flash('Customer added successfully.', 'success')
+            return redirect(url_for('reg.view_customers'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error adding customer: {}'.format(str(e)), 'danger')
+
+    return render_template('add_customer.html', form=form)
+
+
+@reg_bp.route('/update/customer/<int:customer_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def update_customer(customer_id):
+    customer = Customer.query.get_or_404(customer_id)
+    form = CustomerForm(obj=customer)
+
+    if form.validate_on_submit():
+        customer.customer_name = form.customer_name.data
+        customer.email = form.email.data
+        customer.phone = form.phone.data
+        customer.address = form.address.data
+
+        try:
+            db.session.commit()
+            flash('Customer updated successfully.', 'success')
+            return redirect(url_for('reg.view_customers'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error updating customer: {}'.format(str(e)), 'danger')
+
+    return render_template('update_customer.html', form=form,
+        customer=customer)
+
+
+@reg_bp.route('/delete/customer/<int:customer_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_customer(customer_id):
+    customer = Customer.query.get_or_404(customer_id)
+    
+    try:
+        db.session.delete(customer)
+        db.session.commit()
+        flash('Customer deleted successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error deleting customer: {}'.format(str(e)), 'danger')
+
+    return redirect(url_for('reg.view_customers'))
 
 @reg_bp.route('/update/supplier/<int:supplier_id>', methods=['GET', 'POST'])
 @login_required
@@ -49,6 +121,7 @@ def delete_supplier(supplier_id):
 
 @reg_bp.route('/add/supplier', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def add_supplier():
     form = SupplierForm()
 
@@ -84,6 +157,8 @@ def view_supplier():
 
 
 @reg_bp.route('/delete/user/<int:user_id>', methods=['POST'])
+@login_required
+@admin_required
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     
@@ -99,6 +174,7 @@ def delete_user(user_id):
 
 @reg_bp.route('/update/user/<int:user_id>', methods=['GET', 'POST'])
 @login_required  # Ensure the user is logged in to perform this action
+@admin_required
 def update_user(user_id):
     user = User.query.get_or_404(user_id)  # Fetch the user by ID
     form = UpdateUserForm(obj=user)  # Prepopulate form with user data

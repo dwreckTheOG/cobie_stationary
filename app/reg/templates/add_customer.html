@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Customer {% endblock %}
+
+{% block head %}
+<!-- Additional head content -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="form-container">
+    <h2>Add New Customer</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Customer Form -->
+    <form method="POST" action="{{ url_for('reg.add_customer') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.customer_name.label(class="form-label") }}
+            {{ form.customer_name(class="form-control", placeholder="Enter customer name") }}
+            {% if form.customer_name.errors %}
+                <div class="text-danger">
+                    {{ form.customer_name.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", placeholder="Enter email address") }}
+            {% if form.email.errors %}
+                <div class="text-danger">
+                    {{ form.email.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone.label(class="form-label") }}
+            {{ form.phone(class="form-control", placeholder="Enter phone number") }}
+            {% if form.phone.errors %}
+                <div class="text-danger">
+                    {{ form.phone.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.address.label(class="form-label") }}
+            {{ form.address(class="form-control", placeholder="Enter address") }}
+            {% if form.address.errors %}
+                <div class="text-danger">
+                    {{ form.address.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+    </form>
+</div>
+{% endblock %}

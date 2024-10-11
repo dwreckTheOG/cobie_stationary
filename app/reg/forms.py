@@ -2,6 +2,12 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField, StringField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
 
+class CustomerForm(FlaskForm):
+    customer_name = StringField('Customer Name', validators=[DataRequired(), Length(max=255)])
+    email = StringField('Email', validators=[Optional(), Email(), Length(max=255)])
+    phone = StringField('Phone', validators=[Optional(), Length(max=20)])
+    address = TextAreaField('Address', validators=[Optional()])
+    submit = SubmitField('Submit')
 
 class SupplierForm(FlaskForm):
     supplier_name = StringField('Supplier Name', validators=[DataRequired(), Length(max=255)])
