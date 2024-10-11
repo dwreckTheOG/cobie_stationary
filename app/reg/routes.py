@@ -1,10 +1,87 @@
 from flask import render_template, redirect, url_for, flash
 from app.reg import reg_bp
-from app.reg.forms import UserRegistrationForm, UpdateUserForm
-from app.models import User
-from app.extensions import db
+from app.reg.forms import UserRegistrationForm, UpdateUserForm, SupplierForm
+from app.models import User,Supplier
+from app.extensions import db, admin_required
 from werkzeug.security import generate_password_hash
-from flask_login import login_required
+from flask_login import login_required, current_user
+
+
+@reg_bp.route('/update/supplier/<int:supplier_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def update_supplier(supplier_id):
+    supplier = Supplier.query.get_or_404(supplier_id)
+    form = SupplierForm(obj=supplier)
+    
+    if form.validate_on_submit():
+        # Update the supplier's information from form data
+        supplier.supplier_name = form.supplier_name.data
+        supplier.contact_name = form.contact_name.data
+        supplier.contact_email = form.contact_email.data
+        supplier.contact_phone = form.contact_phone.data
+        supplier.address = form.address.data
+        
+        # Save the changes to the database
+        db.session.commit()
+        flash('Supplier updated successfully!', 'success')
+        return redirect(url_for('reg.view_supplier'))
+    
+    return render_template('update_supplier.html', form=form, supplier=supplier,
+        current_user=current_user)
+
+
+@reg_bp.route('/delete/supplier/<int:supplier_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_supplier(supplier_id):
+    supplier = Supplier.query.get_or_404(supplier_id)
+    
+    try:
+        db.session.delete(supplier)
+        db.session.commit()
+        flash(f'Supplier {supplier.supplier_name} deleted successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting supplier: {str(e)}', 'danger')
+    
+    return redirect(url_for('reg.view_supplier'))
+
+@reg_bp.route('/add/supplier', methods=['GET', 'POST'])
+@login_required
+def add_supplier():
+    form = SupplierForm()
+
+    if form.validate_on_submit():
+        # Create a new supplier object with form data
+        new_supplier = Supplier(
+            supplier_name=form.supplier_name.data,
+            contact_name=form.contact_name.data,
+            contact_email=form.contact_email.data,
+            contact_phone=form.contact_phone.data,
+            address=form.address.data
+        )
+        
+        # Add the new supplier to the database
+        db.session.add(new_supplier)
+        db.session.commit()
+
+        # Flash success message and redirect
+        flash('Supplier added successfully!', 'success')
+        return redirect(url_for('reg.view_supplier'))
+
+    # If GET request or form is not valid, render the add_supplier.html with the form
+    return render_template('add_supplier.html', form=form)
+
+@reg_bp.route('/view/suppliers')
+@login_required
+def view_supplier():
+    # Retrieve all suppliers from the database
+    suppliers = Supplier.query.all()
+    
+    # Render the template with the suppliers data
+    return render_template('view_supplier.html', suppliers=suppliers)
+
 
 @reg_bp.route('/delete/user/<int:user_id>', methods=['POST'])
 def delete_user(user_id):

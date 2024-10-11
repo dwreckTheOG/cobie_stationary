@@ -1,6 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
+from wtforms import TextAreaField, StringField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
+
+
+class SupplierForm(FlaskForm):
+    supplier_name = StringField('Supplier Name', validators=[DataRequired(), Length(max=255)])
+    contact_name = StringField('Contact Name', validators=[Optional(), Length(max=255)])
+    contact_email = StringField('Contact Email', validators=[Optional(), Email(), Length(max=255)])
+    contact_phone = StringField('Contact Phone', validators=[Optional(), Length(max=20)])
+    address = TextAreaField('Address', validators=[Optional()])
+    submit = SubmitField('Submit')
 
 
 class UpdateUserForm(FlaskForm):

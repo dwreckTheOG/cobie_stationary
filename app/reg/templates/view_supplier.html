@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}View Suppliers{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h2>Suppliers List</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('reg.add_supplier') }}" class="btn btn-primary mb-3">Add New Supplier</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Supplier ID</th>
+                <th>Supplier Name</th>
+                <th>Contact Email</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th colspan="2">Actions</th> <!-- Spanning 2 columns for Update and Delete -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.supplier_id }}</td>
+                <td>{{ supplier.supplier_name }}</td>
+                <td>{{ supplier.contact_email }}</td>
+                <td>{{ supplier.contact_phone }}</td>
+                <td>{{ supplier.address }}</td>
+                <td>
+                    <a href="{{ url_for('reg.update_supplier', supplier_id=supplier.supplier_id) }}" class="btn btn-primary">Update</a>
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('reg.delete_supplier', supplier_id=supplier.supplier_id) }}" onsubmit="return confirm('Are you sure you want to delete this supplier?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

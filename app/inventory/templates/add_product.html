@@ -2,7 +2,12 @@
 
 {% block title %}Add Product{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
 {% block content %}
+<div class="form-container">
     <h2>Add New Product</h2>
     <form method="POST" action="{{ url_for('inventory.add_product') }}">
         {{ form.hidden_tag() }}
@@ -35,10 +40,7 @@
             {{ form.unit_price(class="form-control") }}
         </div>
 
-        <div class="form-group">
-            {{ form.stock_quantity.label }}<br>
-            {{ form.stock_quantity(class="form-control") }}
-        </div>
+
 
         <div class="form-group">
             {{ form.reorder_level.label }}<br>
@@ -52,4 +54,5 @@
 
         <button type="submit" class="btn btn-primary">Add Product</button>
     </form>
+</div>
 {% endblock %}

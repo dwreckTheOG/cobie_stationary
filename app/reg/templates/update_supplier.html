@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Supplier{% endblock %}
+
+{% block head %}
+<!-- Additional head content -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Update Supplier</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Supplier Form -->
+    <form method="POST" action="{{ url_for('reg.update_supplier',supplier_id=supplier.supplier_id) }}">
+        {{ form.hidden_tag() }} <!-- CSRF token for form security -->
+
+        <div class="form-group">
+            {{ form.supplier_name.label }}
+            {{ form.supplier_name(class="form-control", placeholder="Enter supplier name") }}
+            {% if form.supplier_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.supplier_name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.contact_name.label }}
+            {{ form.contact_name(class="form-control", placeholder="Enter contact name") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.contact_email.label }}
+            {{ form.contact_email(class="form-control", placeholder="Enter contact email") }}
+            {% if form.contact_email.errors %}
+                <div class="text-danger">
+                    {% for error in form.contact_email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.contact_phone.label }}
+            {{ form.contact_phone(class="form-control", placeholder="Enter contact phone") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.address.label }}
+            {{ form.address(class="form-control", placeholder="Enter address") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+        <a href="{{ url_for('reg.view_supplier') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
