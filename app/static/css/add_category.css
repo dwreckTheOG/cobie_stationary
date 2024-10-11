@@ -1,0 +1,47 @@
+/* Add Category Form Styles */
+.form-group {
+    margin-bottom: 1.5rem; /* Spacing between form fields */
+    text-align: left; /* Align form labels and fields to the left */
+    max-width: 600px;
+    margin: 0 auto; /* Center the form */
+}
+
+.form-group label {
+    font-size: 1rem; /* Consistent font size for labels */
+    color: #DB3E25; /* Use brand color for labels */
+}
+
+
+
+button[type="submit"] {
+    background-color: #DB3E25; /* Brand color for button */
+    color: #ffffff;
+    padding: 0.75rem 1.5rem; /* Padding for the submit button */
+    border: none;
+    border-radius: 5px; /* Rounded button */
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #333333; /* Darker shade on hover */
+}
+
+h2 {
+    font-size: 1.75rem; /* Consistent heading size */
+    color: #DB3E25; /* Brand color for the heading */
+    margin-bottom: 1.5rem; /* Spacing below the heading */
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-group {
+        width: 100%; /* Make form fields full width on small screens */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Adjust heading size on small screens */
+    }
+}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+    <h2>Add New Product</h2>
+    <form method="POST" action="{{ url_for('inventory.add_product') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.product_name.label }}<br>
+            {{ form.product_name(class="form-control") }}
+        </div>
+        
+        <div class="form-group">
+            <label for="category_id">Category</label><br>
+            <select name="category_id" id="category_id" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="supplier_id">Supplier</label><br>
+            <select name="supplier_id" id="supplier_id" class="form-control">
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.supplier_id }}">{{ supplier.supplier_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            {{ form.unit_price.label }}<br>
+            {{ form.unit_price(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.stock_quantity.label }}<br>
+            {{ form.stock_quantity(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.reorder_level.label }}<br>
+            {{ form.reorder_level(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.discontinued.label }}<br>
+            {{ form.discontinued(class="form-control") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Product</button>
+    </form>
+{% endblock %}

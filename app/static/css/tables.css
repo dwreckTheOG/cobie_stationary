@@ -1,0 +1,119 @@
+/* Common Table Styles */
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.25rem; /* Consistent padding with base styling */
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+.table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Merge borders */
+    margin-top: 20px; /* Spacing above the table */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Consistent shadow effect */
+}
+
+.table th,
+.table td {
+    padding: 15px; /* Spacing inside cells */
+    border: 1px solid #ddd; /* Light border for cells */
+    text-align: center; /* Center align text */
+}
+
+.table th {
+    background-color: #97D5EE; /* Header background color */
+    color: #ffffff; /* Header text color */
+    font-weight: bold; /* Bold header text */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray for even rows */
+}
+
+.table tbody tr:hover {
+    background-color: #d9eaf7; /* Subtle hover effect */
+}
+
+.table tbody td {
+    color: #333333; /* Text color contrast */
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 20px; /* Button padding */
+    background-color: #DB3E25; /* Primary button color */
+    color: #ffffff; /* Text color for buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Ensure block layout */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.btn:hover {
+    background-color: #97D5EE; /* Hover color for buttons */
+    color: #DB3E25; /* Change text color on hover */
+}
+
+/* Alert Styles */
+.alert {
+    padding: 15px; /* Padding for alerts */
+    margin-bottom: 20px; /* Space below alerts */
+    border-radius: 5px; /* Rounded corners */
+    color: #721c24; /* Text color for alerts */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Green background */
+    color: #155724; /* Dark green text */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Red background */
+    color: #721c24; /* Dark red text */
+}
+
+/* Collapsible Menu Styles */
+.collapsible {
+    background-color: #DB3E25; /* Primary color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor for interactive */
+    padding: 10px; /* Padding */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    text-align: left; /* Align text to the left */
+    outline: none; /* No outline */
+    font-size: 1rem; /* Font size */
+}
+
+.collapsible.active,
+.collapsible:hover {
+    background-color: #BA321D; /* Darker shade on hover or active */
+}
+
+.content {
+    padding: 0 18px; /* Padding inside content */
+    display: none; /* Initially hidden */
+    overflow: hidden; /* Prevent overflow */
+    background-color: #f9f9f9; /* Background color for collapsible content */
+    border: 1px solid #ddd; /* Border for collapsible content */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px; /* Adjust padding for smaller devices */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Slightly smaller heading for mobile */
+    }
+
+    .btn {
+        padding: 8px 16px; /* Adjust button size */
+        font-size: 0.9rem; /* Adjust font size */
+    }
+}

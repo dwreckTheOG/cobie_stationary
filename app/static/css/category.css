@@ -1,0 +1,17 @@
+/* Alert Styles */
+.alert {
+    padding: 15px; /* Padding for alerts */
+    margin-bottom: 20px; /* Space below alerts */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Example alert color styles */
+.alert-success {
+    background-color: #d4edda; /* Green background */
+    color: #155724; /* Dark green text */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Red background */
+    color: #721c24; /* Dark red text */
+}

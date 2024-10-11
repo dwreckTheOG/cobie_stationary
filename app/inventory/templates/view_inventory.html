@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory List{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/inventory.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h2>Inventory</h2>
+
+    <!-- Collapsible Menu for Admin actions -->
+    <button class="collapsible">Manage Inventory</button>
+    <div class="content">
+        <ul>
+            <li><a href="{{ url_for('inventory.add_product') }}">Add Product</a></li>
+            <li><a href="{{ url_for('inventory.list_category') }}">Manage Categories</a></li>
+            <li><a href="{{ url_for('inventory.add_category') }}">Add Category</a></li>
+        </ul>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Supplier</th>
+                <th>Unit Price</th>
+                <th>Stock Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.category.category_name if product.category else 'N/A' }}</td>
+                <td>{{ product.supplier.supplier_name if product.supplier else 'N/A' }}</td>
+                <td>${{ product.unit_price }}</td>
+                <td>{{ product.stock_quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var coll = document.getElementsByClassName('collapsible');
+        for (var i = 0; i < coll.length; i++) {
+            coll[i].addEventListener('click', function() {
+                this.classList.toggle('active');
+                var content = this.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

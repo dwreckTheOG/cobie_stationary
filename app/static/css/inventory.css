@@ -1,0 +1,105 @@
+/* Collapsible Menu Styles */
+.collapsible {
+    background-color: #DB3E25;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.collapsible:hover {
+    background-color: #c7341f;
+}
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.content ul li {
+    padding: 10px 0;
+}
+
+.content ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+.content ul li a:hover {
+    color: #DB3E25;
+}
+a {
+    color: #DB3E25;
+    text-decoration: none;
+    padding: 0.625rem 1.25rem; /* Consistent padding in rem */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+a:hover {
+    background-color: #333333;
+    color: #DB3E25;
+}
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+table thead th {
+    background-color: #DB3E25;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+    background-color: #d9eaf7;
+}
+
+table tbody td {
+    color: #333333;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table th, table td {
+        padding: 10px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .collapsible {
+        font-size: 1rem;
+    }
+}
