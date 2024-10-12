@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Product{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Update Product</h2>
+    
+    <!-- Display Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}  <!-- CSRF Token for security -->
+        
+        <div class="form-group">
+            <label for="product_name">Product Name</label>
+            {{ form.product_name(class="form-control", placeholder="Enter product name") }}
+            {% for error in form.product_name.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="product_code">Product Code</label>  <!-- New field for product code -->
+            {{ form.product_code(class="form-control", placeholder="Enter product code") }}
+            {% for error in form.product_code.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="category_id">Category</label>
+            {{ form.category_id(class="form-control") }}
+            {% for error in form.category_id.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="supplier_id">Supplier</label>
+            {{ form.supplier_id(class="form-control") }}
+            {% for error in form.supplier_id.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="unit_price">Unit Price</label>
+            {{ form.unit_price(class="form-control", placeholder="Enter unit price") }}
+            {% for error in form.unit_price.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="stock_quantity">Stock Quantity</label>
+            {{ form.stock_quantity(class="form-control", placeholder="Enter stock quantity") }}
+            {% for error in form.stock_quantity.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="reorder_level">Reorder Level</label>
+            {{ form.reorder_level(class="form-control", placeholder="Enter reorder level") }}
+            {% for error in form.reorder_level.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="discontinued">Discontinued</label>
+            {{ form.discontinued(class="form-check-input") }} 
+            <label class="form-check-label" for="discontinued">Mark as discontinued</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+        <a href="{{ url_for('inventory.view_inventory') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

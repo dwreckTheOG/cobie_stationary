@@ -1,24 +1,26 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, DateTimeField,StringField, DecimalField, IntegerField, BooleanField, SelectField, SubmitField
+from wtforms import HiddenField,TextAreaField, DateTimeField,StringField, DecimalField, IntegerField, BooleanField, SelectField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Length
+from wtforms.fields import DateTimeLocalField
+from datetime import datetime
 
 class InventoryForm(FlaskForm):
-    product_id = SelectField('Product', coerce=int)  # This will need a query to populate choices
+    product_id = HiddenField('Product', validators=[DataRequired()])  # Hidden field for product_id
     stock_in = IntegerField('Stock In', validators=[DataRequired(), NumberRange(min=0)])
     stock_out = IntegerField('Stock Out', validators=[DataRequired(), NumberRange(min=0)])
-    date = DateTimeField('Date', format='%Y-%m-%d %H:%M:%S', validators=[DataRequired()])
+    date = DateTimeLocalField('Date', format='%Y-%m-%dT%H:%M', default=datetime.now)
     submit = SubmitField('Update Inventory')
 
 class ProductForm(FlaskForm):
     product_name = StringField('Product Name', validators=[DataRequired()])
-    category_id = SelectField('Category', coerce=int)  # This will need a query to populate choices
-    supplier_id = SelectField('Supplier', coerce=int)  # This will need a query to populate choices
-    unit_price = DecimalField('Unit Price', validators=[DataRequired(), NumberRange(min=0)], places=2)
-    stock_quantity = IntegerField('Stock Quantity', validators=[DataRequired(), NumberRange(min=0)])
-    reorder_level = IntegerField('Reorder Level', validators=[DataRequired(), NumberRange(min=0)])
+    product_code = StringField('Product Code', validators=[DataRequired()])  # New field for product code
+    category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
+    supplier_id = SelectField('Supplier', choices=[], coerce=int, validators=[DataRequired()])
+    unit_price = DecimalField('Unit Price', validators=[DataRequired()])
+    stock_quantity = IntegerField('Stock Quantity', validators=[DataRequired()])
+    reorder_level = IntegerField('Reorder Level', validators=[DataRequired()])
     discontinued = BooleanField('Discontinued')
-    submit = SubmitField('Save Product')
-
+    
 class CategoryForm(FlaskForm):
     category_name = StringField(
         'Category Name', 

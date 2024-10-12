@@ -19,6 +19,7 @@ class Product(db.Model):
     
     product_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_name = db.Column(db.String(255), nullable=False)
+    product_code = db.Column(db.String(10), unique=True, nullable=True)  # New field for product code
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'), nullable=True)
     supplier_id = db.Column(db.Integer, db.ForeignKey('suppliers.supplier_id'), nullable=True)
     unit_price = db.Column(db.Numeric(10, 2), nullable=False)
@@ -49,7 +50,6 @@ class Supplier(db.Model):
     def __repr__(self):
         return f"<Supplier {self.supplier_name}>"
 
-
 class Customer(db.Model):
     __tablename__ = 'customers'
     
@@ -70,19 +70,18 @@ class Inventory(db.Model):
     
     inventory_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
-    stock_in = db.Column(db.Integer, nullable=False)
-    stock_out = db.Column(db.Integer, nullable=False)
+    stock_in = db.Column(db.Integer, nullable=True)
+    stock_out = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __repr__(self):
         return f"<Inventory Product: {self.product_id}, Stock In: {self.stock_in}, Stock Out: {self.stock_out}>"
 
-
 class Sale(db.Model):
     __tablename__ = 'sales'
     
     sale_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     sale_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     total_amount = db.Column(db.Numeric(10, 2), nullable=False)
@@ -102,13 +101,12 @@ class SalesItem(db.Model):
     sale_id = db.Column(db.Integer, db.ForeignKey('sales.sale_id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    unit_price = db.Column(db.Numeric(10, 2), nullable=False)
     total_price = db.Column(db.Numeric(10, 2), nullable=False)
 
     def __repr__(self):
         return f"<SalesItem {self.sale_item_id} - Product {self.product_id}>"
 
-class User(db.Model,UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -117,7 +115,6 @@ class User(db.Model,UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.Enum('Admin', 'Salesperson'), default='Salesperson')
     
-
     # Relationships
     sales = db.relationship('Sale', backref='user', lazy=True)
 

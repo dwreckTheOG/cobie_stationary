@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Inventory{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Manage Stock</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<form method="POST" action="{{ url_for('inventory.add_inventory', product_id=form.product_id.data) }}">
+    {{ form.hidden_tag() }}  <!-- CSRF Token -->
+
+    <div class="form-group">
+        {{ form.product_id() }}  <!-- Render the hidden product_id field -->
+    </div>
+
+    <div class="form-group">
+        <label for="stock_in">Stock In</label>
+        {{ form.stock_in(class="form-control", placeholder="Enter stock in quantity") }}
+        {% for error in form.stock_in.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        <label for="stock_out">Stock Out</label>
+        {{ form.stock_out(class="form-control", placeholder="Enter stock out quantity") }}
+        {% for error in form.stock_out.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Inventory</button>
+    <a href="{{ url_for('inventory.view_inventory') }}" class="btn btn-secondary">Cancel</a>
+</form>
+
+</div>
+{% endblock %}

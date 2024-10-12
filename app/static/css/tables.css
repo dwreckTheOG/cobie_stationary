@@ -83,7 +83,7 @@
     padding: 10px; /* Padding */
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
-    text-align: left; /* Align text to the left */
+    text-align: center; /* Align text to the left */
     outline: none; /* No outline */
     font-size: 1rem; /* Font size */
 }

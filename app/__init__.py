@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from app.models import *
-from app.extensions import db,login_manager
+from app.extensions import db,login_manager,migrate
 from datetime import timedelta
 
 
@@ -14,6 +14,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
+    migrate.init_app(app,db)
 
     @login_manager.user_loader
     def load_user(user_id):
