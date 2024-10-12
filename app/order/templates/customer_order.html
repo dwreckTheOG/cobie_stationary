@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Order - Cobie Stationary{% endblock %}
+
+{% block head %}
+<!-- Additional head content -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer_order.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Create Customer Order</h1>
+    
+    <!-- Form to add sales items -->
+    <form action="{{ url_for('order.add_sales_item') }}" method="POST">
+        <input type="hidden" name="sale_id" value="{{ sale_id }}">
+        
+        <div class="form-group">
+    <label for="customer_id">Customer:</label>
+    <select name="customer_id" id="customer_id">
+        <option value="">Anonymous</option>
+        <!-- Assume you have a list of customers to populate this dropdown -->
+        {% for customer in customers %}
+            <option value="{{ customer.customer_id }}">{{ customer.customer_name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+        <div class="form-group">
+            <label for="product">Product:</label>
+            <select name="product_id" id="product" required>
+                <!-- You can populate this dropdown with products from the database -->
+                {% for product in products %}
+                    <option value="{{ product.product_id }}">{{ product.product_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" required>
+        </div>
+
+        <button type="submit">Add to Order</button>
+    </form>
+</div>
+
+<!-- Display current order items -->
+<h2>Current Order Items</h2>
+<ul>
+    {% for item in order_items %}
+        <li>{{ item.product_code }} - Quantity: {{ item.quantity }}</li>
+    {% endfor %}
+</ul>
+
+<div class="form-group">
+    <form action="{{ url_for('order.finalize_order') }}" method="POST">
+        <input type="hidden" name="sale_id" value="{{ sale_id }}">
+        <button type="submit">Finalize Order</button>
+    </form>
+</div>
+{% endblock %}

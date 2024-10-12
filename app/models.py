@@ -34,6 +34,28 @@ class Product(db.Model):
     def __repr__(self):
         return f"<Product {self.product_name}>"
 
+    @classmethod
+    def update_by_product_code(cls, product_code, **kwargs):
+        """Update a product record by product code.
+        
+        Args:
+            product_code (str): The product code of the product to update.
+            **kwargs: The fields to update (e.g., product_name, unit_price, stock_quantity, etc.).
+        
+        Returns:
+            bool: True if the update was successful, False otherwise.
+        """
+        product = cls.query.filter_by(product_code=product_code).first()
+        if not product:
+            return False  # Product not found
+        
+        for key, value in kwargs.items():
+            if hasattr(product, key):
+                setattr(product, key, value)
+        
+        db.session.commit()  # Commit the changes
+        return True  # Update successful
+
 class Supplier(db.Model):
     __tablename__ = 'suppliers'
     
@@ -84,7 +106,7 @@ class Sale(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     sale_date = db.Column(db.DateTime, default=db.func.current_timestamp())
-    total_amount = db.Column(db.Numeric(10, 2), nullable=False)
+    total_amount = db.Column(db.Numeric(10, 2), nullable=True)
     payment_status = db.Column(db.Enum('Pending', 'Paid', 'Cancelled'), default='Pending')
 
     # Relationships
@@ -99,12 +121,13 @@ class SalesItem(db.Model):
     
     sale_item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sale_id = db.Column(db.Integer, db.ForeignKey('sales.sale_id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
+    product_code = db.Column(db.String(50), db.ForeignKey('products.product_code'), nullable=False)  # Reference by product_code
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Numeric(10, 2), nullable=False)
 
     def __repr__(self):
-        return f"<SalesItem {self.sale_item_id} - Product {self.product_id}>"
+        return f"<SalesItem {self.sale_item_id} - Product {self.product_code}>"
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -130,7 +153,7 @@ class Payment(db.Model):
     payment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sale_id = db.Column(db.Integer, db.ForeignKey('sales.sale_id'), nullable=False)
     amount_paid = db.Column(db.Numeric(10, 2), nullable=False)
-    payment_method = db.Column(db.Enum('Cash', 'Card', 'Bank Transfer'), nullable=False)
+    payment_method = db.Column(db.Enum('Cash', 'M-Pesa'), nullable=False)
     payment_date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __repr__(self):
