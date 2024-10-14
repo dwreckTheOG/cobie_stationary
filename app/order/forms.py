@@ -3,6 +3,17 @@ from wtforms import IntegerField, DateTimeLocalField, DecimalField, SelectField,
 from wtforms.validators import DataRequired, Optional, NumberRange
 from datetime import datetime
 
+class OrderStatusForm(FlaskForm):
+    status = SelectField('Status', choices=[
+        ('Pending', 'Pending'),
+        ('Sorting', 'Sorting'),
+        ('Transporting', 'Transporting'),
+        ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled')
+    ], validators=[DataRequired()])
+    
+    submit = SubmitField('Update Status')
+
 class SaleForm(FlaskForm):
     customer_id = IntegerField('Customer ID', validators=[Optional(), NumberRange(min=1)])
     user_id = IntegerField('User ID', validators=[DataRequired(), NumberRange(min=1)])  # Assuming user_id is required
@@ -27,6 +38,7 @@ class SalesItemForm(FlaskForm):
         
 class PaymentForm(FlaskForm):
     sale_id = IntegerField('Sale ID', validators=[DataRequired(), NumberRange(min=1)])
+    order_id = IntegerField('Order ID', validators=[DataRequired(), NumberRange(min=1)])  # Add order_id field
     amount_paid = DecimalField('Amount Paid', places=2, validators=[DataRequired(), NumberRange(min=0)])
     payment_method = SelectField('Payment Method', 
                                   choices=[('Cash', 'Cash'), 

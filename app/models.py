@@ -171,17 +171,19 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"<User {self.full_name}>"
 
+
 class Payment(db.Model):
     __tablename__ = 'payments'
     
     payment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sale_id = db.Column(db.Integer, db.ForeignKey('sales.sale_id'), nullable=False)
+    sale_id = db.Column(db.Integer, db.ForeignKey('sales.sale_id'), nullable=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'), nullable=True)  # Add order_id field
     amount_paid = db.Column(db.Numeric(10, 2), nullable=False)
     payment_method = db.Column(db.Enum('Cash', 'M-Pesa'), nullable=False)
     payment_date = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __repr__(self):
-        return f"<Payment {self.payment_id} - Sale {self.sale_id}>"
+        return f"<Payment {self.payment_id} - Sale {self.sale_id} - Order {self.order_id}>"
 
 
 
@@ -224,7 +226,7 @@ class Order(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=False)
     order_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     total_amount = db.Column(db.Numeric(10, 2), nullable=False)
-    status = db.Column(db.Enum('Pending', 'Completed', 'Cancelled'), default='Pending')
+    status = db.Column(db.Enum('Pending','Sorting','Transporting', 'Completed', 'Cancelled'), default='Pending')
 
     # Relationships
     order_items = db.relationship('OrderItem', backref='order', lazy=True)
@@ -240,6 +242,9 @@ class OrderItem(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Numeric(10, 2), nullable=False)
+
+    # Define relationship with Product
+    product = db.relationship('Product', backref='order_items')
 
     def __repr__(self):
         return f"<OrderItem {self.order_item_id} - Product {self.product_id}, Quantity {self.quantity}>"
