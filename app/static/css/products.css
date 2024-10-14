@@ -1,0 +1,49 @@
+/* Additional CSS for dynamic card sizes and responsiveness */
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .card {
+        flex: 1 1 calc(33% - 20px); /* Adjusts the width dynamically */
+        margin: 10px;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    /* Adjust card size for small screens */
+    @media (max-width: 768px) {
+        .card {
+            flex: 1 1 calc(50% - 20px);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .card {
+            flex: 1 1 100%;
+        }
+    }
+
+    /* Make the card larger when hovered */
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    /* Add some spacing around the container */
+    .container {
+        padding: 20px;
+    }

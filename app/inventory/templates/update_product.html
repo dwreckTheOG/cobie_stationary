@@ -19,73 +19,56 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}  <!-- CSRF Token for security -->
-        
-        <div class="form-group">
-            <label for="product_name">Product Name</label>
-            {{ form.product_name(class="form-control", placeholder="Enter product name") }}
-            {% for error in form.product_name.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('inventory.update_product', product_id=product.product_id) }}">
+    {{ form.hidden_tag() }}  <!-- CSRF Token for security -->
+    
+    <div>
+        {{ form.product_name.label }}<br>
+        {{ form.product_name(size=32) }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="product_code">Product Code</label>  <!-- New field for product code -->
-            {{ form.product_code(class="form-control", placeholder="Enter product code") }}
-            {% for error in form.product_code.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.product_code.label }}<br>  <!-- New field for product code -->
+        {{ form.product_code(size=10) }}<br>  <!-- Input for product code -->
+    </div>
 
-        <div class="form-group">
-            <label for="category_id">Category</label>
-            {{ form.category_id(class="form-control") }}
-            {% for error in form.category_id.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.category_id.label }}<br>
+        {{ form.category_id }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="supplier_id">Supplier</label>
-            {{ form.supplier_id(class="form-control") }}
-            {% for error in form.supplier_id.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.supplier_id.label }}<br>
+        {{ form.supplier_id }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="unit_price">Unit Price</label>
-            {{ form.unit_price(class="form-control", placeholder="Enter unit price") }}
-            {% for error in form.unit_price.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.unit_price.label }}<br>
+        {{ form.unit_price }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="stock_quantity">Stock Quantity</label>
-            {{ form.stock_quantity(class="form-control", placeholder="Enter stock quantity") }}
-            {% for error in form.stock_quantity.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.stock_quantity.label }}<br>
+        {{ form.stock_quantity }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="reorder_level">Reorder Level</label>
-            {{ form.reorder_level(class="form-control", placeholder="Enter reorder level") }}
-            {% for error in form.reorder_level.errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+    <div>
+        {{ form.reorder_level.label }}<br>
+        {{ form.reorder_level }}<br>
+    </div>
 
-        <div class="form-group">
-            <label for="discontinued">Discontinued</label>
-            {{ form.discontinued(class="form-check-input") }} 
-            <label class="form-check-label" for="discontinued">Mark as discontinued</label>
-        </div>
+    <div>
+        {{ form.discontinued.label }}<br>
+        {{ form.discontinued }}<br>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Update Product</button>
-        <a href="{{ url_for('inventory.view_inventory') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+    <div>
+        <label for="image">Product Image</label><br>
+        {{ form.image }}  <!-- File input for product image -->
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Product</button>
+    <a href="{{ url_for('inventory.view_inventory') }}" class="btn btn-secondary">Cancel</a>
+</form>
 </div>
 {% endblock %}

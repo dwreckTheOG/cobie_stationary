@@ -1,8 +1,10 @@
 from flask import Flask
 from config import Config
 from app.models import *
-from app.extensions import db,login_manager,migrate
+from app.extensions import db,login_manager,migrate,b64encode
 from datetime import timedelta
+from flask import session
+
 
 
 def create_app():
@@ -13,12 +15,27 @@ def create_app():
     # Initialize the database
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
     migrate.init_app(app,db)
+    app.jinja_env.filters['b64encode'] = b64encode
+    # Define a custom Jinja2 filter for currency formatting
+    def format_currency(value):
+        """Format the value as currency."""
+        return f"Ksh. {value:,.2f}"
+
+    # Register the filter with Jinja2
+    app.jinja_env.filters['currency'] = format_currency
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        # Extract user type from the session
+        user_type = session.get('user_type')
+
+        if user_type == 'customer':
+            return Customer.query.get(int(user_id))
+        elif user_type == 'user':
+            return User.query.get(int(user_id))
+        return None
+
 
 
     with app.app_context():
@@ -39,5 +56,11 @@ def create_app():
 
     from app.order import order_bp
     app.register_blueprint(order_bp, url_prefix='/order')
+
+    from app.report import report_bp
+    app.register_blueprint(report_bp, url_prefix='/report')
+
+    from app.customer import customer_bp
+    app.register_blueprint(customer_bp,url_prefix='/customer')
 
     return app

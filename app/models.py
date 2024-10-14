@@ -1,5 +1,7 @@
 from app.extensions import db
 from flask_login import UserMixin
+from sqlalchemy import LargeBinary
+from enum import Enum
 
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -14,6 +16,7 @@ class Category(db.Model):
     def __repr__(self):
         return f"<Category {self.category_name}>"
 
+
 class Product(db.Model):
     __tablename__ = 'products'
     
@@ -26,6 +29,7 @@ class Product(db.Model):
     stock_quantity = db.Column(db.Integer, nullable=False, default=0)
     reorder_level = db.Column(db.Integer, nullable=False)
     discontinued = db.Column(db.Boolean, default=False)
+    image = db.Column(LargeBinary, nullable=True)  # New field for storing image data
 
     # Relationships
     inventory = db.relationship('Inventory', backref='product', lazy=True)
@@ -80,12 +84,32 @@ class Customer(db.Model):
     email = db.Column(db.String(255), nullable=True)
     phone = db.Column(db.String(20), nullable=True)
     address = db.Column(db.Text, nullable=True)
+    password = db.Column(db.String(255), nullable=True)
 
     # Relationships
     sales = db.relationship('Sale', backref='customer', lazy=True)
+    cart = db.relationship('Cart', backref='customer', uselist=False)  # Each customer can have one cart
+    orders = db.relationship('Order', backref='customer', lazy=True)  # Each customer can have many orders
 
     def __repr__(self):
         return f"<Customer {self.customer_name}>"
+    
+    def get_id(self):
+        return str(self.customer_id)
+
+    # Flask-Login required methods
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True  # You can add additional logic if you need to control this
+
+    @property
+    def is_anonymous(self):
+        return False
+
 
 class Inventory(db.Model):
     __tablename__ = 'inventory'
@@ -158,3 +182,64 @@ class Payment(db.Model):
 
     def __repr__(self):
         return f"<Payment {self.payment_id} - Sale {self.sale_id}>"
+
+
+
+class CartStatus(Enum):
+    PENDING = 'pending'
+    ORDERED = 'ordered'
+
+class Cart(db.Model):
+    __tablename__ = 'carts'
+    
+    cart_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=False)
+    status = db.Column(db.Enum(CartStatus), nullable=False, default=CartStatus.PENDING)  # Adding status column
+    
+    # Relationships
+    cart_items = db.relationship('CartItem', backref='cart', lazy=True)
+
+    def __repr__(self):
+        return f"<Cart {self.cart_id} for Customer {self.customer_id} - Status: {self.status.value}>"
+
+
+class CartItem(db.Model):
+    __tablename__ = 'cart_items'
+    
+    cart_item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cart_id = db.Column(db.Integer, db.ForeignKey('carts.cart_id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    # Define relationship to Product
+    product = db.relationship('Product', backref='cart_items', lazy=True)
+
+    def __repr__(self):
+        return f"<CartItem {self.cart_item_id} - Product {self.product_id}, Quantity {self.quantity}>"
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    
+    order_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.customer_id'), nullable=False)
+    order_date = db.Column(db.DateTime, default=db.func.current_timestamp())
+    total_amount = db.Column(db.Numeric(10, 2), nullable=False)
+    status = db.Column(db.Enum('Pending', 'Completed', 'Cancelled'), default='Pending')
+
+    # Relationships
+    order_items = db.relationship('OrderItem', backref='order', lazy=True)
+
+    def __repr__(self):
+        return f"<Order {self.order_id} by Customer {self.customer_id}>"
+
+class OrderItem(db.Model):
+    __tablename__ = 'order_items'
+    
+    order_item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Numeric(10, 2), nullable=False)
+
+    def __repr__(self):
+        return f"<OrderItem {self.order_item_id} - Product {self.product_id}, Quantity {self.quantity}>"

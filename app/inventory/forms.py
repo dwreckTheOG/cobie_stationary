@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import HiddenField,TextAreaField, DateTimeField,StringField, DecimalField, IntegerField, BooleanField, SelectField, SubmitField
+from wtforms import FileField, HiddenField,TextAreaField, DateTimeField,StringField, DecimalField, IntegerField, BooleanField, SelectField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Length
 from wtforms.fields import DateTimeLocalField
 from datetime import datetime
+from flask_wtf.file import FileAllowed
+
 
 class InventoryForm(FlaskForm):
     product_id = HiddenField('Product', validators=[DataRequired()])  # Hidden field for product_id
@@ -20,6 +22,7 @@ class ProductForm(FlaskForm):
     stock_quantity = IntegerField('Stock Quantity', validators=[DataRequired()])
     reorder_level = IntegerField('Reorder Level', validators=[DataRequired()])
     discontinued = BooleanField('Discontinued')
+    image = FileField('Product Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])  # Ensure only image files are uploaded
     
 class CategoryForm(FlaskForm):
     category_name = StringField(

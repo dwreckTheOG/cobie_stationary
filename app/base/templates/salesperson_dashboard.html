@@ -12,8 +12,9 @@
     <p>Here are your sales tasks:</p>
     <div class="menu">
     <ul>
-        <li><a href="#">View Sales Orders</a></li>
-        <li><a href="#">Manage Customers</a></li>
+        
+        <li><a href="{{ url_for('order.customer_order') }}">Customer Oder</a></li><br>
+        <li><a href="{{ url_for('reg.view_customers') }}">Manage Customers</a></li><br>
         <li><a href="#">Generate Sales Reports</a></li>
     </ul>
     </div>

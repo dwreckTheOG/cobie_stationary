@@ -1,35 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Home - Cobie Stationary{% endblock %}
+{% block title %}Index{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="hero">
-    <h2>Welcome to Cobie Stationary!</h2>
-    <p>Your one-stop shop for all stationery needs. Explore our wide range of products designed to inspire creativity and boost productivity.</p>
-    <a href="#" class="btn">Shop Now</a>
-</div>
+<div class="container">
+    <h2>Available Products</h2>
 
-<div class="featured-products">
-    <h3>Featured Products</h3>
-    <div class="product-list">
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/product1.jpg') }}" alt="Product 1">
-            <h4>Notebook</h4>
-            <p>Price: $5.99</p>
-            <a href="#" class="btn">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/product2.jpg') }}" alt="Product 2">
-            <h4>Pens</h4>
-            <p>Price: $2.49</p>
-            <a href="#" class="btn">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/product3.jpg') }}" alt="Product 3">
-            <h4>Sticky Notes</h4>
-            <p>Price: $1.99</p>
-            <a href="#" class="btn">View Details</a>
-        </div>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Product Cards Container -->
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="card" onclick="window.location.href='{{ url_for('customer.add_to_cart', product_id=product.product_id) }}'">
+                <img src="data:image/png;base64,{{ product.image|b64encode }}" alt="{{ product.product_name }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">
+                        <strong>Product Code:</strong> {{ product.product_code if product.product_code else 'N/A' }}<br>
+                        <strong>Unit Price:</strong> Ksh. {{ "%.2f" | format(product.unit_price) }}<br>
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <p>No products available at this time.</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

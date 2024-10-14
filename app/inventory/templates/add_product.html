@@ -9,7 +9,7 @@
 {% block content %}
 <div class="form-container">
     <h2>Add New Product</h2>
-    <form method="POST" action="{{ url_for('inventory.add_product') }}">
+    <form method="POST" action="{{ url_for('inventory.add_product') }}" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
         <div>
@@ -50,6 +50,11 @@
         <div>
             {{ form.discontinued.label }}<br>
             {{ form.discontinued }}<br>
+        </div>
+
+        <div>
+            <label for="image">Product Image</label><br>
+            <input type="file" name="image" accept="image/*" class="form-control"><!-- New image input field -->
         </div>
 
         <button type="submit" class="btn btn-primary">Add Product</button>

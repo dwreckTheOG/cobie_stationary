@@ -3,6 +3,12 @@ from flask_login import LoginManager, current_user
 from functools import wraps
 from flask import flash, redirect, url_for
 from flask_migrate import Migrate
+import base64
+
+def b64encode(data):
+    if data:
+        return base64.b64encode(data).decode('utf-8')
+    return None
 
 
 login_manager = LoginManager()
@@ -21,7 +27,7 @@ def admin_required(f):
         # Check if the user has the admin role
         if current_user.role != 'Admin':
             flash('You do not have the required permissions.', 'danger')
-            return redirect(url_for('main.index'))  # Adjust to your desired redirect route
+            return redirect(url_for('base.index'))  # Adjust to your desired redirect route
         
         return f(*args, **kwargs)
     return decorated_function

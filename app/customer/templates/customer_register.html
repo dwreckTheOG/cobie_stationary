@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+<!-- Additional head content -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+<form method="POST" action="{{ url_for('customer.customer_register') }}">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.customer_name.label }} {{ form.customer_name }}
+    </div>
+    <div>
+        {{ form.email.label }} {{ form.email }}
+    </div>
+    <div>
+        {{ form.phone.label }} {{ form.phone }}
+    </div>
+    <div>
+        {{ form.address.label }} {{ form.address }}
+    </div>
+    <div>
+        {{ form.password.label }} {{ form.password }}
+    </div>
+    <div>
+        {{ form.confirm_password.label }} {{ form.confirm_password }}
+    </div>
+    <div>
+        <button type="submit">{{ form.submit.label }}</button>
+    </div>
+</form>
+</div>
+{% endblock %}

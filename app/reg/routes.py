@@ -14,7 +14,6 @@ def view_customers():
 
 @reg_bp.route('/add/customer', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def add_customer():
     form = CustomerForm()
 

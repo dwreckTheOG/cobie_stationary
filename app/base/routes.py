@@ -1,11 +1,20 @@
 from flask import render_template, redirect, url_for, abort
 from flask_login import current_user, login_required
 from app.base import base_bp
+from app.models import *
+import random
 
 # Home route (everyone can access)
 @base_bp.route('/')
 def index():
-    return render_template('index.html')
+    # Fetch all available products (excluding discontinued ones)
+    products = Product.query.filter_by(discontinued=False).all()
+
+    # Shuffle products if needed
+    random.shuffle(products)
+
+    # Render the index template with products passed to the template
+    return render_template('index.html', products=products)
 
 # Admin dashboard (only accessible to admins)
 @base_bp.route('/admin/dashboard')

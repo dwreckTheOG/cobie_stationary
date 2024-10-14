@@ -136,7 +136,7 @@ def update_product(product_id):
 
     # Populate the category choices
     form.category_id.choices = [(category.category_id, category.category_name) for category in Category.query.all()]
-    
+
     # Populate the supplier choices
     form.supplier_id.choices = [(supplier.supplier_id, supplier.supplier_name) for supplier in Supplier.query.all()]
 
@@ -149,6 +149,11 @@ def update_product(product_id):
         product.stock_quantity = form.stock_quantity.data
         product.reorder_level = form.reorder_level.data
         product.discontinued = form.discontinued.data
+        
+        # Handle image upload
+        if form.image.data:
+            image_file = form.image.data
+            product.image = image_file.read()  # Read the image data and store it
 
         try:
             db.session.commit()
@@ -158,7 +163,7 @@ def update_product(product_id):
             db.session.rollback()
             flash(f'Error updating product: {str(e)}', 'danger')
 
-    return render_template('update_product.html', form=form)
+    return render_template('update_product.html', form=form, product=product)  # Pass product to template
 
 
 @inventory_bp.route('/delete/product/<int:product_id>', methods=['GET'])
@@ -204,6 +209,12 @@ def add_product():
             reorder_level=form.reorder_level.data,
             discontinued=form.discontinued.data
         )
+        
+        # Handle image upload
+        if form.image.data:
+            image_file = form.image.data
+            new_product.image = image_file.read()  # Read the image data and store it
+
         try:
             # Add the product to the database
             db.session.add(new_product)
@@ -216,7 +227,6 @@ def add_product():
             flash(f'Error adding product: {str(e)}', 'danger')
 
     return render_template('add_product.html', form=form)
-
 
 @inventory_bp.route('/view/inventory')
 @login_required

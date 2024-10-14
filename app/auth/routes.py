@@ -4,6 +4,7 @@ from app.auth.forms import LoginForm
 from app.models import User  # Assuming User is in models.py
 from flask_login import login_user, logout_user # Import login_user if you're using Flask-Login
 from werkzeug.security import check_password_hash
+from flask import session
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -13,7 +14,9 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             # Log in the user (assuming you're using Flask-Login)
-            login_user(user)
+            session['user_type'] = 'user'
+            login_user(user)  # user is an instance of User
+
             flash('Login successful!', 'success')
             return redirect(url_for('base.index'))  # Redirect to a protected route
         else:
